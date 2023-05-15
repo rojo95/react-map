@@ -1,0 +1,26 @@
+/* tamaño del mapa */
+.leaflet-container {
+  height: 90vh;
+  width: 100%;
+  z-index: 0;
+}
+
+.form,
+.controls {
+  position: absolute;
+  top: 76px;
+  transition: 0.5s;
+}
+
+.form {
+  z-index: 10;
+  left: 10px;
+}
+.controls {
+  top: 10px;
+  right: 10px;
+  z-index: 400;
+}
+.hidden_form {
+  left: -410px;
+}
