@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "https://rojo95.github.io/react-map",
   "scripts": {
-    "deploy": "npm run build && git add . && git commit \"build del proyecto\" && git push",
+    "deploy": "npm run build && git add . && git commit -m \"build del proyecto\" && git push",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
