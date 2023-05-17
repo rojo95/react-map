@@ -5,10 +5,9 @@
   "type": "module",
   "homepage": "https://rojo95.github.io/react-map",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run build && git add . && git commit \"build del proyecto\" && git push",
     "dev": "vite",
-    "build": "vite build --base=/react-map/",
+    "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
