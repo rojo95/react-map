@@ -7,10 +7,10 @@ import "./style/index.css";
 import Footer from "../Footer/Footer";
 
 export default function Layout({ children, form }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   function handleOpen() {
-    console.log(open)
+    console.log(open);
     setOpen(!open);
   }
 
@@ -35,15 +35,15 @@ export default function Layout({ children, form }) {
               boxSizing: "border-box",
             },
           }}
-          variant='persistent'
-          anchor='left'
+          variant="persistent"
+          anchor="left"
           open={open}
         >
           <DrawerHeader>
             <Typography
-              variant='h6'
+              variant="h6"
               noWrap
-              component='p'
+              component="p"
               sx={{
                 mr: 2,
                 display: { xs: "flex" },
@@ -59,7 +59,7 @@ export default function Layout({ children, form }) {
             <IconButton onClick={handleOpen}>{<ChevronLeft />}</IconButton>
           </DrawerHeader>
           <Divider />
-          <Grid Item sx={{position: 'relative'}}>
+          <Grid item sx={{ position: "relative" }}>
             {form}
           </Grid>
         </Drawer>
