@@ -5,21 +5,18 @@ import {
   MapContainer,
   TileLayer,
   useMap,
-  Marker,
   useMapEvents,
   ZoomControl,
 } from "react-leaflet";
 import Layout from "../../components/Layout/";
 import Form from "../../components/Form/";
-import MarkerMe from "../../components/MarkerMe/MarkerMe";
+import MarkerMe from "../../components/MarkerMe";
+import Marker from "../../components/Marker/";
 // import ZoomControl from "../../components/ZoomControl/ZoomControl";
 
 export default function Home() {
   const [position, setPosition] = useState({ x: 0, y: 0 }); // initial position
-  const [markers, setMarkers] = useState([]); // markers in the map
   const [myPosition, setMyPosition] = useState(null);
-
-  //   const [show, setShow] = useState(false); // show the form
 
   /**
    *Function to get the own position provided by the browser
@@ -82,8 +79,35 @@ export default function Home() {
     changePosition(newVal);
   }
 
-  const handleMapClick = (e) => {
-    console.log(e.latlng);
+  const [markers, setMarkers] = useState([]);
+
+  function AddMarker() {
+    useMapEvents({
+      click: (e) => {
+        const pos = e.latlng;
+        const newMarker = {
+          id: Math.random(), // Genera un ID aleatorio para el marcador
+          position: pos,
+        };
+        setMarkers([...markers, newMarker]);
+        // setPosition({ x: pos.lat, y: pos.lng });
+      },
+    });
+    return null;
+  }
+
+  const addMarker = (e) => {
+    const newMarker = {
+      id: Math.random(), // Genera un ID aleatorio para el marcador
+      position: e.latlng,
+    };
+    setMarkers([...markers, newMarker]);
+  };
+
+  const removeMarker = (id) => {
+    const pos = markers.filter((marker) => marker.id === id);
+    setPosition({ x: pos[0].position.lat, y: pos[0].position.lng });
+    setMarkers(markers.filter((marker) => marker.id !== id));
   };
 
   return (
@@ -102,47 +126,33 @@ export default function Home() {
         zoom={5}
         scrollWheelZoom={true}
         zoomControl={false}
-        onClick={handleMapClick}
+        eventHandlers={{
+          click: () => {
+            addMarker;
+          },
+        }}
       >
         <TileLayer
           attribution='&copy; <a href="https://rojo95/github.io/portfolio">Portafolio</a>'
-          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {myPosition && <MarkerMe position={myPosition} />}
-        {/* .map((data, i) => (
-            <Marker
-              key={i}
-              position={[data.position.x, data.position.y]}
-              name={data.name}
-            />
-          )) */}
         <MapCenter center={[position.x, position.y]} />
-        <AddMarker markers={markers} setMarkers={setMarkers} />
-        <ZoomControl position='topright' />
+        <AddMarker />
+        {markers.map((marker) => (
+          <Marker
+            key={marker.id}
+            id={marker.id}
+            position={marker.position}
+            draggable={true}
+            onClick={removeMarker}
+          ></Marker>
+        ))}
+        <ZoomControl position="topright" />
         {/* <ZoomControl show={show} formShowAction={formShowAction}></ZoomControl> */}
       </MapContainer>
     </Layout>
   );
-}
-
-function AddMarker() {
-  const [markers, setMarkers] = useState([]);
-  useMapEvents({
-    click(e) {
-      setMarkers([...markers, e.latlng]);
-      //   map.locate();
-    },
-    // locationfound(e) {
-    //   setPosition(e.latlng);
-    //   map.flyTo(e.latlng, map.getZoom());
-    // },
-  });
-
-  markers.map((v, i) => {
-    console.log([v.lat, v.lng]);
-
-    <Marker key={i} position={[v.lat, v.lng]}></Marker>;
-  });
 }
 
 /**

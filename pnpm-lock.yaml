@@ -16,6 +16,9 @@ dependencies:
   '@mui/material':
     specifier: ^5.13.0
     version: 5.13.0(@emotion/react@11.11.0)(@emotion/styled@11.11.0)(@types/react@18.2.6)(react-dom@18.2.0)(react@18.2.0)
+  eegeo.js:
+    specifier: ^0.1.1111
+    version: 0.1.1111
   leaflet:
     specifier: ^1.9.3
     version: 1.9.3
@@ -1239,6 +1242,12 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.5
       csstype: 3.1.2
+    dev: false
+
+  /eegeo.js@0.1.1111:
+    resolution: {integrity: sha512-j5aITgycVwtjAjq9QiQ8h2RP16I8btJprhAfsC3b7qwveCBpJXAS0nSV72/ZSo5oOm4O3lZldaEmCEn1zxqc4A==}
+    dependencies:
+      leaflet: 1.9.3
     dev: false
 
   /electron-to-chromium@1.4.391:
