@@ -7,8 +7,8 @@ const Footer = () => {
   return (
     <Grid
       container
-      justify='flex-end'
-      alignItems='center'
+      justify="flex-end"
+      alignItems="center"
       padding={2}
       sx={{
         position: { md: "block", sx: "fixed" },
@@ -17,9 +17,13 @@ const Footer = () => {
       }}
     >
       <Grid item xs={12}>
-        <Typography variant='body1' align='right'>
+        <Typography variant="body1" align="right">
           © {d.getFullYear()} Copyright - Hecho con{" "}
-          <Favorite className='pulsate' /> por Johan Román.
+          <Favorite className="pulsate" /> por{" "}
+          <a href="rojo95.github.io/portfolio" className="link">
+            Johan Román
+          </a>
+          .
         </Typography>
       </Grid>
     </Grid>
