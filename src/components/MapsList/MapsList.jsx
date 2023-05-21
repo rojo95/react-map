@@ -14,14 +14,11 @@ const MapsList = ({ maps, setMapActive }) => {
           key={i}
           onClick={() => activeMap(i)}
           className={`option ${active === i ? "active" : ""}`}
-          style={{
-            background: `url(/src/assets/img/maps/${vals.img}) center`,
-          }}
         >
           <p className={`title ${vals.light ? "text-white" : ""}`}>
             {vals.name || "Empty"}
           </p>
-          <img src={`/src/assets/img/maps/${vals.img}`} alt="" />
+          <img src={`/public/assets/img/maps/${vals.img}`} alt="" />
         </div>
       ))}
     </>
