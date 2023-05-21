@@ -37,7 +37,7 @@ const maps = [
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     name: "Realista",
     img: "map13.png",
-    light: true,
+    // light: true,
   },
   {
     url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
