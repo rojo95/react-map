@@ -9,9 +9,9 @@ const Footer = () => {
       container
       justify="flex-end"
       alignItems="center"
-      padding={2}
+      padding={1}
       sx={{
-        position: { md: "block", sx: "fixed" },
+        position: { md: "fixed", sx: "fixed" },
         bottom: "0px",
         background: "#fff",
       }}

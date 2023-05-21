@@ -1,0 +1,52 @@
+.text-white {
+  color: white;
+}
+
+.option {
+  height: 80px;
+  max-height: 80px;
+  border-bottom: 1px solid #ccc;
+  transition: 0.5s;
+  cursor: context-menu;
+  user-select: none;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+  font-family: monospace;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+  font-size: large;
+}
+
+.option img {
+  z-index: 0;
+  transition: 0.5s;
+  width: 100%;
+}
+
+.option img:hover {
+  width: 110%;
+}
+
+.option:hover:not(.active) {
+  background-color: rgba(0, 0, 0, 0.2); /* color negro con 50% de opacidad */
+  cursor: pointer;
+  font-size: x-large;
+}
+
+.option.active {
+  font-size: x-large;
+  text-decoration: inherit;
+  color: white;
+}
+
+.option.active img {
+  filter: brightness(0.5);
+}
+
+.title {
+  z-index: 1;
+  position: absolute;
+  right: 20px;
+  bottom: 0px;
+}

@@ -5,13 +5,16 @@ import { styled } from "@mui/material/styles";
 import Header from "../Header/Header";
 import "./style/index.css";
 import Footer from "../Footer/Footer";
+import { ChevronRight } from "@mui/icons-material";
 
-export default function Layout({ children, form }) {
+export default function Layout({ children, menuLeft, menuRight }) {
   const [open, setOpen] = useState(false);
+  const [side, setSide] = useState(true);
 
-  function handleOpen() {
+  function handleOpen(side = true) {
     console.log(open);
     setOpen(!open);
+    setSide(side);
   }
 
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -36,10 +39,10 @@ export default function Layout({ children, form }) {
             },
           }}
           variant="persistent"
-          anchor="left"
+          anchor={side ? "left" : "right"}
           open={open}
         >
-          <DrawerHeader>
+          <DrawerHeader sx={{ textAlign: "left" }}>
             <Typography
               variant="h6"
               noWrap
@@ -56,11 +59,13 @@ export default function Layout({ children, form }) {
             >
               React Map
             </Typography>
-            <IconButton onClick={handleOpen}>{<ChevronLeft />}</IconButton>
+            <IconButton onClick={() => handleOpen(side ? true : false)}>
+              {side ? <ChevronLeft /> : <ChevronRight />}
+            </IconButton>
           </DrawerHeader>
           <Divider />
-          <Grid item sx={{ position: "relative" }}>
-            {form}
+          <Grid item sx={{ position: "relative", overflow: "scroll" }}>
+            {side ? menuLeft : menuRight}
           </Grid>
         </Drawer>
       </header>

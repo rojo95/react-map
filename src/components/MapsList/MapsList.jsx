@@ -1,0 +1,31 @@
+import { useState } from "react";
+import "./style/index.css";
+
+const MapsList = ({ maps, setMapActive }) => {
+  const [active, setActive] = useState(0);
+  const activeMap = (i) => {
+    setMapActive(i);
+    setActive(i);
+  };
+  return (
+    <>
+      {maps.map((vals, i) => (
+        <div
+          key={i}
+          onClick={() => activeMap(i)}
+          className={`option ${active === i ? "active" : ""}`}
+          style={{
+            background: `url(/src/assets/img/maps/${vals.img}) center`,
+          }}
+        >
+          <p className={`title ${vals.light ? "text-white" : ""}`}>
+            {vals.name || "Empty"}
+          </p>
+          <img src={`/src/assets/img/maps/${vals.img}`} alt="" />
+        </div>
+      ))}
+    </>
+  );
+};
+
+export default MapsList;

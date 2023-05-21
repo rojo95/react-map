@@ -8,75 +8,82 @@ import {
   ZoomControl,
 } from "react-leaflet";
 
-import terminator from "@joergdietrich/leaflet.terminator";
+// import terminator from "@joergdietrich/leaflet.terminator";
 
 import Swal from "sweetalert2";
 import Layout from "../../components/Layout/";
 import Form from "../../components/Form/";
 import MarkerMe from "../../components/MarkerMe";
 import Marker from "../../components/Marker/";
+import MapsList from "../../components/MapsList/";
 
 const maps = [
   {
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    name: "Urbano",
+    img: "map12.png",
+  },
+  {
+    url: "https://tile.osm.ch/switzerland/{z}/{x}/{y}.png",
+    name: "Urbano 2",
+    img: "map11.png",
+  },
+  {
+    url: "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
+    name: "Urbano 3",
+    img: "map8.png",
+  },
+  {
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    name: "Realista",
+    img: "map13.png",
+    light: true,
+  },
+  {
     url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-    name: "Viajero",
-    img: "",
+    name: "Vial",
+    img: "map1.png",
+  },
+  {
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    name: "Vial 2",
+    img: "map6.png",
   },
   {
     url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
     name: "Cartográfico",
-    img: "",
+    img: "map2.png",
   },
   {
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}",
-    name: "",
-    img: "",
+    name: "Batimétrico",
+    img: "map3.png",
   },
   {
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
-    name: "",
-    img: "",
+    name: "Relieve",
+    img: "map4.png",
   },
   {
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/Specialty/DeLorme_World_Base_Map/MapServer/tile/{z}/{y}/{x}",
-    name: "",
-    img: "",
-  },
-  {
-    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-    name: "",
-    img: "",
+    name: "Topográfico",
+    img: "map5.png",
   },
   {
     url: "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.png",
-    name: "",
-    img: "",
-  },
-  {
-    url: "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
-    name: "",
-    img: "",
+    name: "Politico",
+    img: "map7.png",
   },
   {
     url: "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-    name: "",
-    img: "",
+    name: "Politico Oscuro",
+    img: "map9.png",
+    light: true,
   },
   {
     url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
-    name: "",
-    img: "",
-  },
-  { url: "https://tile.osm.ch/switzerland/{z}/{x}/{y}.png", name: "", img: "" },
-  {
-    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    name: "",
-    img: "",
-  },
-  {
-    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    name: "",
-    img: "",
+    name: "Orográfico",
+    img: "map10.png",
   },
 ];
 
@@ -198,7 +205,7 @@ export default function Home() {
 
   return (
     <Layout
-      form={
+      menuLeft={
         <Form
           ownPosition={ownPosition}
           position={center}
@@ -206,6 +213,7 @@ export default function Home() {
           style={{ position: "absolute" }}
         />
       }
+      menuRight={<MapsList maps={maps} setMapActive={setMapActive} />}
     >
       <MapContainer
         center={[center.x, center.y]}
@@ -222,8 +230,7 @@ export default function Home() {
         <TileLayer
           attribution='&copy; <a href="https://rojo95/github.io/portfolio">Portafolio</a>'
           url={maps[mapActive].url}
-          minZoom={0} // Nivel mínimo de zoom permitido
-          maxZoom={8} // Nivel máximo de zoom permitido
+          minZoom={3} // Nivel mínimo de zoom permitido
         />
         {myPosition && <MarkerMe position={myPosition} />}
         {/* <MapCenter center={[center.x, center.y]} /> */}

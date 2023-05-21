@@ -23,10 +23,10 @@ export default function Form({
       xs={12}
       md={12}
       item
-      sx={{ position: "absolute", width: "100%" }}
+      sx={{ width: "100%" }}
     >
       <Grid item xs={12}>
-        <CardMedia sx={{ height: 140 }} image={map} title="green iguana" />
+        <CardMedia sx={{ height: 140 }} image={map} />
         <CardContent>
           <Typography
             variant="body"
