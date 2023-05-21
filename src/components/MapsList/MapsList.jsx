@@ -18,7 +18,7 @@ const MapsList = ({ maps, setMapActive }) => {
           <p className={`title ${vals.light ? "text-white" : ""}`}>
             {vals.name || "Empty"}
           </p>
-          <img src={`/public/assets/img/maps/${vals.img}`} alt="" />
+          <img src={`/public/maps/${vals.img}`} alt="" />
         </div>
       ))}
     </>
