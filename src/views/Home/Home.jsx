@@ -75,12 +75,6 @@ const maps = [
     img: "map7.png",
   },
   {
-    url: "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-    name: "Politico Oscuro",
-    img: "map9.png",
-    light: true,
-  },
-  {
     url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
     name: "Orográfico",
     img: "map10.png",
