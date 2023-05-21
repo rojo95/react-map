@@ -38,6 +38,7 @@
   font-size: x-large;
   text-decoration: inherit;
   /* color: white; */
+  background-color: rgba(0, 0, 0, 0.2); /* color negro con 50% de opacidad */
 }
 
 .option.active img {
