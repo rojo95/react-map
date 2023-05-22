@@ -34,6 +34,9 @@ dependencies:
   react-leaflet:
     specifier: ^4.2.1
     version: 4.2.1(leaflet@1.9.3)(react-dom@18.2.0)(react@18.2.0)
+  react-meta-tags:
+    specifier: ^1.0.1
+    version: 1.0.1(react-dom@18.2.0)(react@18.2.0)
   sweetalert2:
     specifier: ^11.7.5
     version: 11.7.5
@@ -2308,6 +2311,16 @@ packages:
     dependencies:
       '@react-leaflet/core': 2.1.0(leaflet@1.9.3)(react-dom@18.2.0)(react@18.2.0)
       leaflet: 1.9.3
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-meta-tags@1.0.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-uylBI9UOI0QCGDsl6PlZaHnp+MxEpwslTlicPjnlcD68I8Kl2hdbuAZBRih+yU5StArSMB6T0jBrgst6rAuDYQ==}
+    peerDependencies:
+      react: ^16.6.0
+      react-dom: ^16.6.0
+    dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false

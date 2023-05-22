@@ -7,6 +7,7 @@ import {
   useMapEvents,
   ZoomControl,
 } from "react-leaflet";
+import MetaTags from "react-meta-tags";
 
 // import terminator from "@joergdietrich/leaflet.terminator";
 
@@ -136,48 +137,59 @@ export default function Home() {
   };
 
   return (
-    <Layout
-      menuLeft={
-        <Form
-          ownPosition={ownPosition}
-          position={center}
-          changeByLatLon={changeByLatLon}
-          style={{ position: "absolute" }}
+    <>
+      <MetaTags>
+        <title>React Map</title>
+        <meta
+          name="description"
+          content="Web dedicada al posicionamiento global."
         />
-      }
-      menuRight={<MapsList maps={maps} setMapActive={setMapActive} />}
-    >
-      <MapContainer
-        center={[center.x, center.y]}
-        zoom={5}
-        ref={mapRef}
-        scrollWheelZoom={true}
-        zoomControl={false}
-        eventHandlers={{
-          click: () => {
-            addMarker;
-          },
-        }}
+        <meta property="og:title" content="React Map" />
+        {/* <meta property="og:image" content="../../assets/react.svg" /> */}
+      </MetaTags>
+      <Layout
+        menuLeft={
+          <Form
+            ownPosition={ownPosition}
+            position={center}
+            changeByLatLon={changeByLatLon}
+            style={{ position: "absolute" }}
+          />
+        }
+        menuRight={<MapsList maps={maps} setMapActive={setMapActive} />}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://rojo95/github.io/portfolio">Portafolio</a>'
-          url={maps[mapActive].url}
-          minZoom={3} // Nivel mínimo de zoom permitido
-        />
-        {myPosition && <MarkerMe position={myPosition} />}
-        {/* <MapCenter center={[center.x, center.y]} /> */}
-        <AddMarker />
-        {markers.map((marker) => (
-          <Marker
-            key={marker.id}
-            id={marker.id}
-            position={marker.position}
-            draggable={true}
-            onClick={removeMarker}
-          ></Marker>
-        ))}
-        <ZoomControl position="topright" />
-      </MapContainer>
-    </Layout>
+        <MapContainer
+          center={[center.x, center.y]}
+          zoom={5}
+          ref={mapRef}
+          scrollWheelZoom={true}
+          zoomControl={false}
+          eventHandlers={{
+            click: () => {
+              addMarker;
+            },
+          }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://rojo95/github.io/portfolio">Portafolio</a>'
+            url={maps[mapActive].url}
+            minZoom={3} // Nivel mínimo de zoom permitido
+          />
+          {myPosition && <MarkerMe position={myPosition} />}
+          {/* <MapCenter center={[center.x, center.y]} /> */}
+          <AddMarker />
+          {markers.map((marker) => (
+            <Marker
+              key={marker.id}
+              id={marker.id}
+              position={marker.position}
+              draggable={true}
+              onClick={removeMarker}
+            ></Marker>
+          ))}
+          <ZoomControl position="topright" />
+        </MapContainer>
+      </Layout>
+    </>
   );
 }
