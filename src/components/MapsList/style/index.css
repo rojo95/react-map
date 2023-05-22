@@ -37,7 +37,7 @@
 .option.active {
   font-size: x-large;
   text-decoration: inherit;
-  /* color: white; */
+  color: white;
   background-color: rgba(0, 0, 0, 0.2); /* color negro con 50% de opacidad */
 }
 
