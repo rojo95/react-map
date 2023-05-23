@@ -1,0 +1,12 @@
+.item {
+  min-height: 40px !important;
+  padding: 10px;
+  cursor: default;
+  border-bottom: 1px #ccc solid;
+  transition: 0.3s;
+}
+
+.item:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}

@@ -154,6 +154,7 @@ export default function Home() {
             position={center}
             changeByLatLon={changeByLatLon}
             style={{ position: "absolute" }}
+            changePosition={changePosition}
           />
         }
         menuRight={<MapsList maps={maps} setMapActive={setMapActive} />}

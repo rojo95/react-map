@@ -1,3 +1,5 @@
+import { useState } from "react";
+import axios from "axios";
 import {
   CardActions,
   CardContent,
@@ -6,7 +8,10 @@ import {
   Typography,
   TextField,
   Grid,
+  CircularProgress,
 } from "@mui/material";
+
+import "./style/index.css";
 import map from "../../assets/img/wood_map.jpg";
 
 export default function Form({
@@ -14,7 +19,22 @@ export default function Form({
   className,
   ownPosition,
   changeByLatLon,
+  changePosition,
 }) {
+  const [place, setPlace] = useState("");
+  const [places, setPlaces] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const searchCity = ({ target: { value } }) => {
+    setLoading(true);
+    setPlace(value);
+    axios
+      .get(`https://nominatim.openstreetmap.org/search?q=${value}&format=json`)
+      .then(({ data }) => {
+        setPlaces(data);
+        setLoading(false);
+      })
+      .catch((err) => console.error(err));
+  };
   return (
     <Grid
       container
@@ -33,7 +53,14 @@ export default function Form({
             color="text.secondary"
             sx={{ display: "flex", marginBottom: 2 }}
           >
-            <TextField id="city" label="Ciudad" variant="outlined" fullWidth />
+            <TextField
+              id="city"
+              label="Ciudad"
+              variant="outlined"
+              value={place}
+              fullWidth
+              onChange={(e) => searchCity(e)}
+            />
           </Typography>
           <Typography
             variant="body"
@@ -61,11 +88,32 @@ export default function Form({
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Search Ubication</Button>
           <Button size="small" onClick={ownPosition}>
             Go My Position
           </Button>
         </CardActions>
+        <CardContent>
+          <Grid container>
+            {loading ? (
+              <Grid item xs={12} textAlign={"center"}>
+                <CircularProgress />
+              </Grid>
+            ) : (
+              places.map((vals, i) => (
+                <Grid
+                  key={i}
+                  item
+                  xs={12}
+                  textAlign={"left"}
+                  className="item"
+                  onClick={() => changePosition({ x: vals.lat, y: vals.lon })}
+                >
+                  {vals.display_name}
+                </Grid>
+              ))
+            )}
+          </Grid>
+        </CardContent>
       </Grid>
     </Grid>
   );
