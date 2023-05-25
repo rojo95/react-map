@@ -73,6 +73,12 @@ const maps = [
     name: "Orográfico",
     img: map10,
   },
+  //   {
+  //     url: "https://api.mapbox.com/styles/v1/osmbuildings/cjt9gq35s09051fo7urho3m0f/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoib3NtYnVpbGRpbmdzIiwiYSI6IjNldU0tNDAifQ.c5EU_3V8b87xO24tuWil0w",
+  //     name: "Mapa 3D",
+  //     img: map10,
+  //     map3D: true,
+  //   },
 ];
 
 export default maps;

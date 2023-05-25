@@ -1,12 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef, useState, Suspense, lazy } from "react";
 import "./style/index.css";
 import "leaflet/dist/leaflet.css";
-import {
-  MapContainer,
-  TileLayer,
-  useMapEvents,
-  ZoomControl,
-} from "react-leaflet";
 import MetaTags from "react-meta-tags";
 
 // import terminator from "@joergdietrich/leaflet.terminator";
@@ -14,18 +8,21 @@ import MetaTags from "react-meta-tags";
 import Swal from "sweetalert2";
 import Layout from "../../components/Layout/";
 import Form from "../../components/Form/";
-import MarkerMe from "../../components/MarkerMe";
-import Marker from "../../components/Marker/";
 import MapsList from "../../components/MapsList/";
+import CenterSpinner from "../../components/CenterSipnner/index";
 
 import maps from "../../assets/files/maps";
+import Map3D from "../../components/Map3d/Map3d";
+
+const Map = lazy(() => import("../../components/Map"));
 
 export default function Home() {
   const [center, setCenter] = useState({ x: 0, y: 0 }); // initial center
   const [myPosition, setMyPosition] = useState(null);
-  const [markers, setMarkers] = useState([]);
   const [mapActive, setMapActive] = useState(0);
   const mapRef = useRef();
+
+  const [map3d, setMap3d] = useState(false);
 
   /**
    * Configuration for toast by SweetAlert2
@@ -110,32 +107,6 @@ export default function Home() {
     changePosition(newVal); // new position
   }
 
-  function AddMarker() {
-    useMapEvents({
-      click: (e) => {
-        const pos = e.latlng;
-        const newMarker = {
-          id: Math.random(), // Genera un ID aleatorio para el marcador
-          position: pos,
-        };
-        setMarkers([...markers, newMarker]);
-      },
-    });
-    return null;
-  }
-
-  const addMarker = (e) => {
-    const newMarker = {
-      id: Math.random(), // Genera un ID aleatorio para el marcador
-      position: e.latlng,
-    };
-    setMarkers([...markers, newMarker]);
-  };
-
-  const removeMarker = (id) => {
-    setMarkers(markers.filter((marker) => marker.id !== id));
-  };
-
   return (
     <>
       <MetaTags>
@@ -157,39 +128,27 @@ export default function Home() {
             changePosition={changePosition}
           />
         }
-        menuRight={<MapsList maps={maps} setMapActive={setMapActive} />}
-      >
-        <MapContainer
-          center={[center.x, center.y]}
-          zoom={5}
-          ref={mapRef}
-          scrollWheelZoom={true}
-          zoomControl={false}
-          eventHandlers={{
-            click: () => {
-              addMarker;
-            },
-          }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://rojo95/github.io/portfolio">Portafolio</a>'
-            url={maps[mapActive].url}
-            minZoom={3} // Nivel mínimo de zoom permitido
+        menuRight={
+          <MapsList
+            maps={maps}
+            setMapActive={setMapActive}
+            setMap3d={setMap3d}
           />
-          {myPosition && <MarkerMe position={myPosition} />}
-          {/* <MapCenter center={[center.x, center.y]} /> */}
-          <AddMarker />
-          {markers.map((marker) => (
-            <Marker
-              key={marker.id}
-              id={marker.id}
-              position={marker.position}
-              draggable={true}
-              onClick={removeMarker}
-            ></Marker>
-          ))}
-          <ZoomControl position="topright" />
-        </MapContainer>
+        }
+      >
+        <Suspense fallback={<CenterSpinner />}>
+          {map3d ? (
+            <Map3D center={center} />
+          ) : (
+            <Map
+              center={center}
+              maps={maps}
+              myPosition={myPosition}
+              mapActive={mapActive}
+              mapRef={mapRef}
+            />
+          )}
+        </Suspense>
       </Layout>
     </>
   );

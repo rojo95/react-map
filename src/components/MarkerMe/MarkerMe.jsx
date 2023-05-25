@@ -17,6 +17,7 @@ export default function MarkerMe({ position }) {
       position={position}
       icon={myIcon}
       onClick={() => console.log("borrar")}
+      draggable={true}
     ></Marker>
   );
 }
