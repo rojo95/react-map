@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./style/index.css";
 
-const MapsList = ({ maps, setMapActive, setMap3d }) => {
+const MapsList = ({ maps, setMapActive }) => {
   const [active, setActive] = useState(0);
   const activeMap = (i) => {
     setMapActive(i);
@@ -15,7 +15,6 @@ const MapsList = ({ maps, setMapActive, setMap3d }) => {
           key={i}
           onClick={() => {
             activeMap(i);
-            setMap3d(vals.map3D ? true : false);
           }}
           className={`option ${active === i ? "active" : ""}`}
         >

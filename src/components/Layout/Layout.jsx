@@ -8,13 +8,17 @@ import Footer from "../Footer/Footer";
 import { ChevronRight } from "@mui/icons-material";
 
 export default function Layout({ children, menuLeft, menuRight }) {
-  const [open, setOpen] = useState(false);
-  const [side, setSide] = useState(true);
+  const [openL, setOpenL] = useState(false);
+  const [openR, setOpenR] = useState(false);
 
-  function handleOpen(side = true) {
-    console.log(open);
-    setOpen(!open);
-    setSide(side);
+  function handleOpenL() {
+    console.log(openL);
+    setOpenL(!openL);
+  }
+
+  function handleOpenR() {
+    console.log(openR);
+    setOpenR(!openR);
   }
 
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -28,7 +32,7 @@ export default function Layout({ children, menuLeft, menuRight }) {
   return (
     <>
       <header>
-        <Header handleDrawerOpen={handleOpen} />
+        <Header handleDrawerOpen={{ handleOpenL, handleOpenR }} />
         <Drawer
           sx={{
             width: { xs: 300, md: 400 },
@@ -39,8 +43,8 @@ export default function Layout({ children, menuLeft, menuRight }) {
             },
           }}
           variant="persistent"
-          anchor={side ? "left" : "right"}
-          open={open}
+          anchor={"left"}
+          open={openL}
         >
           <DrawerHeader sx={{ textAlign: "left" }}>
             <Typography
@@ -59,13 +63,52 @@ export default function Layout({ children, menuLeft, menuRight }) {
             >
               React Map
             </Typography>
-            <IconButton onClick={() => handleOpen(side ? true : false)}>
-              {side ? <ChevronLeft /> : <ChevronRight />}
+            <IconButton onClick={handleOpenL}>
+              <ChevronLeft />
             </IconButton>
           </DrawerHeader>
           <Divider />
           <Grid item sx={{ position: "relative", overflow: "scroll" }}>
-            {side ? menuLeft : menuRight}
+            {menuLeft}
+          </Grid>
+        </Drawer>
+        <Drawer
+          sx={{
+            width: { xs: 300, md: 400 },
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: { xs: 300, md: 400 },
+              boxSizing: "border-box",
+            },
+          }}
+          variant="persistent"
+          anchor={"right"}
+          open={openR}
+        >
+          <DrawerHeader sx={{ textAlign: "left" }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="p"
+              sx={{
+                mr: 2,
+                display: { xs: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".2rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              Tipo de Mapa
+            </Typography>
+            <IconButton onClick={handleOpenR}>
+              <ChevronRight />
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <Grid item sx={{ position: "relative", overflow: "scroll" }}>
+            {menuRight}
           </Grid>
         </Drawer>
       </header>

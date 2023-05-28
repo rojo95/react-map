@@ -12,7 +12,6 @@ import MapsList from "../../components/MapsList/";
 import CenterSpinner from "../../components/CenterSipnner/index";
 
 import maps from "../../assets/files/maps";
-import Map3D from "../../components/Map3d/Map3d";
 
 const Map = lazy(() => import("../../components/Map"));
 
@@ -21,8 +20,6 @@ export default function Home() {
   const [myPosition, setMyPosition] = useState(null);
   const [mapActive, setMapActive] = useState(0);
   const mapRef = useRef();
-
-  const [map3d, setMap3d] = useState(false);
 
   /**
    * Configuration for toast by SweetAlert2
@@ -128,26 +125,16 @@ export default function Home() {
             changePosition={changePosition}
           />
         }
-        menuRight={
-          <MapsList
-            maps={maps}
-            setMapActive={setMapActive}
-            setMap3d={setMap3d}
-          />
-        }
+        menuRight={<MapsList maps={maps} setMapActive={setMapActive} />}
       >
         <Suspense fallback={<CenterSpinner />}>
-          {map3d ? (
-            <Map3D center={center} />
-          ) : (
-            <Map
-              center={center}
-              maps={maps}
-              myPosition={myPosition}
-              mapActive={mapActive}
-              mapRef={mapRef}
-            />
-          )}
+          <Map
+            center={center}
+            maps={maps}
+            myPosition={myPosition}
+            mapActive={mapActive}
+            mapRef={mapRef}
+          />
         </Suspense>
       </Layout>
     </>

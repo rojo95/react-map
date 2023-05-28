@@ -9,7 +9,7 @@ import { MoreVert, Menu as MenuIcon } from "@mui/icons-material";
 
 import LogoReact from "../../assets/react.svg";
 
-function Header({ handleDrawerOpen }) {
+function Header({ handleDrawerOpen: { handleOpenL, handleOpenR } }) {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -20,7 +20,7 @@ function Header({ handleDrawerOpen }) {
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            onClick={handleDrawerOpen}
+            onClick={handleOpenL}
             color="inherit"
             className="logo_cont"
           >
@@ -52,11 +52,7 @@ function Header({ handleDrawerOpen }) {
 
           <Box sx={{ flexGrow: 1 }}></Box>
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>
-            <IconButton
-              onClick={() => handleDrawerOpen(false)}
-              sx={{ p: 0 }}
-              color="inherit"
-            >
+            <IconButton onClick={handleOpenR} sx={{ p: 0 }} color="inherit">
               <MoreVert />
             </IconButton>
           </Box>
