@@ -5,17 +5,18 @@ import {
   useMapEvents,
   ZoomControl,
 } from "react-leaflet";
-import L from "leaflet";
+// import L from "leaflet";
 import Marker from "../Marker";
 import MarkerMe from "../MarkerMe";
 
 function Map({ center, mapRef, maps, myPosition, mapActive }) {
-  function addTime() {
-    const map = mapRef.current;
-    if (map) {
-      L.terminator().addTo(map);
-    }
-  }
+  // todo hacer que muestre la noche
+  // function addTime() {
+  //   const map = mapRef.current;
+  //   if (map) {
+  //     L.terminator().addTo(map);
+  //   }
+  // }
 
   function AddMarker() {
     useMapEvents({
