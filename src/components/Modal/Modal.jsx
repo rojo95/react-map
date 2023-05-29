@@ -96,6 +96,7 @@ const Modal = ({
 
   useEffect(() => {
     getFrom();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
