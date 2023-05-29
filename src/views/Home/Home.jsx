@@ -2,39 +2,26 @@ import { useRef, useState, Suspense, lazy } from "react";
 import "./style/index.css";
 import "leaflet/dist/leaflet.css";
 import MetaTags from "react-meta-tags";
+import L from "leaflet";
+import "leaflet-routing-machine";
 
-// import terminator from "@joergdietrich/leaflet.terminator";
-
-import Swal from "sweetalert2";
 import Layout from "../../components/Layout/";
 import Form from "../../components/Form/";
 import MapsList from "../../components/MapsList/";
 import CenterSpinner from "../../components/CenterSipnner/index";
 
 import maps from "../../assets/files/maps";
+import Modal from "../../components/Modal/Modal";
+import NotificationMessage from "../../components/Notifications/Notifications";
 
 const Map = lazy(() => import("../../components/Map"));
 
 export default function Home() {
-  const [center, setCenter] = useState({ x: 0, y: 0 }); // initial center
+  const [center, setCenter] = useState({ lat: 0, lon: 0 }); // initial center
   const [myPosition, setMyPosition] = useState(null);
   const [mapActive, setMapActive] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
   const mapRef = useRef();
-
-  /**
-   * Configuration for toast by SweetAlert2
-   *  @type {*} */
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
 
   /**
    *Function to get the own position provided by the browser
@@ -45,37 +32,31 @@ export default function Home() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         function (position) {
-          const x = position.coords.latitude,
-            y = position.coords.longitude;
-          changePosition({ x, y });
-          setMyPosition([x, y]);
+          const lat = position.coords.latitude,
+            lon = position.coords.longitude;
+          changePosition({ lat, lon });
+          setMyPosition([lat, lon]);
         },
         function (error) {
-          Toast.fire({
-            icon: "error",
-            title: error.message,
-          });
+          NotificationMessage("error", error.message);
           console.error("Error getting geolocation:", error);
         }
       );
     } else {
       // geolocation is not available
-      Toast.fire({
-        icon: "error",
-        title: "La geolocalización no está disponible",
-      });
+      NotificationMessage("error", "La geolocalización no está disponible");
     }
   };
 
   /**
    * function to set the new position
    *
-   * @param {*} { x, y }
+   * @param {*} { lat, lon }
    */
-  function changePosition({ x, y }) {
+  function changePosition({ lat, lon }) {
     const map = mapRef.current;
-    map.flyTo([x, y]);
-    setCenter({ x, y }); // new position
+    map.flyTo([lat, lon]);
+    setCenter({ lat, lon }); // new position
   }
 
   /**
@@ -104,6 +85,32 @@ export default function Home() {
     changePosition(newVal); // new position
   }
 
+  function addRoute(from, to) {
+    const map = mapRef.current;
+    L.Routing.control({
+      waypoints: [L.latLng(from), L.latLng(to)],
+    }).addTo(map);
+  }
+
+  const deleteRoute = () => {
+    const map = mapRef.current;
+    if (map && map instanceof L.Map) {
+      // check if the instance is of type L.Map
+      map.eachLayer((layer) => {
+        // check if the layer is not the TileLayer
+        if (!(layer instanceof L.TileLayer)) {
+          // check if the layer is of type L.Layer
+          if (layer instanceof L.Layer) {
+            map.removeLayer(layer); // remove the layer from the map
+          }
+        }
+      });
+    }
+  };
+
+  function handleModal() {
+    setOpenModal(!openModal);
+  }
   return (
     <>
       <MetaTags>
@@ -123,6 +130,7 @@ export default function Home() {
             changeByLatLon={changeByLatLon}
             style={{ position: "absolute" }}
             changePosition={changePosition}
+            handleModal={handleModal}
           />
         }
         menuRight={<MapsList maps={maps} setMapActive={setMapActive} />}
@@ -137,6 +145,13 @@ export default function Home() {
           />
         </Suspense>
       </Layout>
+      <Modal
+        openModal={openModal}
+        handleModal={handleModal}
+        addRoute={addRoute}
+        deleteRoute={deleteRoute}
+        center={center}
+      ></Modal>
     </>
   );
 }

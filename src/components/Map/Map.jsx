@@ -5,10 +5,18 @@ import {
   useMapEvents,
   ZoomControl,
 } from "react-leaflet";
+import L from "leaflet";
 import Marker from "../Marker";
 import MarkerMe from "../MarkerMe";
 
 function Map({ center, mapRef, maps, myPosition, mapActive }) {
+  function addTime() {
+    const map = mapRef.current;
+    if (map) {
+      L.terminator().addTo(map);
+    }
+  }
+
   function AddMarker() {
     useMapEvents({
       click: (e) => {
@@ -34,9 +42,13 @@ function Map({ center, mapRef, maps, myPosition, mapActive }) {
   const removeMarker = (id) => {
     setMarkers(markers.filter((marker) => marker.id !== id));
   };
+
+  useState(() => {
+    // addTime();
+  }, []);
   return (
     <MapContainer
-      center={[center.x, center.y]}
+      center={[center.lat, center.lon]}
       zoom={5}
       ref={mapRef}
       scrollWheelZoom={true}
@@ -53,7 +65,6 @@ function Map({ center, mapRef, maps, myPosition, mapActive }) {
         minZoom={3} // Nivel mínimo de zoom permitido
       />
       {myPosition && <MarkerMe position={myPosition} />}
-      {/* <MapCenter center={[center.x, center.y]} /> */}
       <AddMarker />
       {markers.map((marker) => (
         <Marker
@@ -64,7 +75,7 @@ function Map({ center, mapRef, maps, myPosition, mapActive }) {
           onClick={removeMarker}
         />
       ))}
-      <ZoomControl position="topright" />
+      <ZoomControl position="topleft" />
     </MapContainer>
   );
 }

@@ -20,6 +20,7 @@ export default function Form({
   ownPosition,
   changeByLatLon,
   changePosition,
+  handleModal,
 }) {
   const [place, setPlace] = useState("");
   const [places, setPlaces] = useState([]);
@@ -69,27 +70,30 @@ export default function Form({
           >
             <TextField
               sx={{ marginRight: 1 }}
-              id="x"
+              id="lat"
               label="Latitud"
               variant="outlined"
               type="number"
-              value={position.x}
+              value={position.lat}
               onChange={(e) => changeByLatLon(e)}
             />
             <TextField
               sx={{ marginLeft: 1 }}
-              id="y"
+              id="lon"
               label="Longitud"
               variant="outlined"
               type="number"
-              value={position.y}
+              value={position.lon}
               onChange={(e) => changeByLatLon(e)}
             />
           </Typography>
         </CardContent>
         <CardActions>
           <Button size="small" onClick={ownPosition}>
-            Go My Position
+            Ir a mi Posición
+          </Button>
+          <Button size="small" onClick={() => handleModal()}>
+            Indicaciones
           </Button>
         </CardActions>
         <CardContent>
@@ -106,7 +110,9 @@ export default function Form({
                   xs={12}
                   textAlign={"left"}
                   className="item"
-                  onClick={() => changePosition({ x: vals.lat, y: vals.lon })}
+                  onClick={() =>
+                    changePosition({ lat: vals.lat, lon: vals.lon })
+                  }
                 >
                   {vals.display_name}
                 </Grid>
