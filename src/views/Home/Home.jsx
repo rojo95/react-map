@@ -14,6 +14,9 @@ import maps from "../../assets/files/maps";
 import Modal from "../../components/Modal/Modal";
 import NotificationMessage from "../../components/Notifications/Notifications";
 
+import markerIcon from "../../assets/img/markers/marker.png";
+import meIcon from "../../assets/img/markers/me.png";
+
 const Map = lazy(() => import("../../components/Map"));
 
 export default function Home() {
@@ -87,8 +90,33 @@ export default function Home() {
 
   function addRoute(from, to) {
     const map = mapRef.current;
+
+    const start = L.icon({
+      iconUrl: meIcon,
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    });
+    const end = L.icon({
+      iconUrl: markerIcon,
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    });
+
     L.Routing.control({
       waypoints: [L.latLng(from), L.latLng(to)],
+      createMarker: function (i, wp, nWps) {
+        if (i === 0) {
+          return L.marker(wp.latLng, {
+            icon: start,
+          });
+        } else if (i === nWps - 1) {
+          return L.marker(wp.latLng, {
+            icon: end,
+          });
+        }
+      },
     }).addTo(map);
   }
 
